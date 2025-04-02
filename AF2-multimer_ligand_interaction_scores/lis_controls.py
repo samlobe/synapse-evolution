@@ -6,20 +6,17 @@ import numpy as np
 import pandas as pd
 from MDAnalysis import Universe
 
-def match_files(directory_path):
+def match_control_files(directory_path):
     json_files = {}
     pdb_files = {}
     
-    # Collect JSON and PDB files
     for file in os.listdir(directory_path):
         if file.endswith(".json"):
-            prefix = file.split("_predicted")[0]  
-            seed = file.split("_seed_")[-1].split(".json")[0]  
-            json_files[(prefix, seed)] = file
+            prefix = file.split("_predicted")[0]
+            json_files[prefix] = file
         elif file.endswith(".pdb"):
-            prefix = file.split("_unrelaxed")[0] 
-            seed = file.split("_seed_")[-1].split(".pdb")[0]  
-            pdb_files[(prefix, seed)] = file
+            prefix = file.split("_unrelaxed")[0]
+            pdb_files[prefix] = file
 
     matched_files = [(json_files[key], pdb_files[key]) for key in json_files if key in pdb_files]
     
@@ -37,11 +34,11 @@ def get_LIS(pae, interchain_mask):
         return np.mean(pae_subset_rescaled)
     return 0
 
-def process_files():
-    script_directory = os.path.dirname(os.path.abspath(__file__)) 
-    directory_path = os.path.join(script_directory, "pdz_files")  
+def process_control_files():
+    script_directory = os.path.dirname(os.path.abspath(__file__))  
+    directory_path = os.path.join(script_directory, "control_files")  
     
-    matched_files = match_files(directory_path)
+    matched_files = match_control_files(directory_path)
     lis_scores = {}
     
     if not matched_files:
@@ -77,14 +74,13 @@ def process_files():
         return
     
     # Save results to CSV in the script directory
-    output_path = os.path.join(script_directory, 'lis_scores.csv')  
+    output_path = os.path.join(script_directory, 'control_lis.csv') 
     df = pd.DataFrame(list(lis_scores.items()), columns=['PDB File', 'LIS Score'])
     df.to_csv(output_path, index=False)
     
     print(f"LIS scores saved to {output_path}")
     return lis_scores
 
-process_files()
-
+process_control_files()
 
 # %%
