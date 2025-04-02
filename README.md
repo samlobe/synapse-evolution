@@ -4,7 +4,7 @@ Code used in manuscript by Nilkant, et. al.
 
 **Protein Language Modeling**: ESM PCA analysis 
 1. Used ESM2-15B (see repo [here](https://github.com/facebookresearch/esm)) to extract embeddings, which were mean-pooled: `python extract.py esm2_t48_15B_UR50D PDZs.fasta output_dir --include mean`
-2. Conducted PCA and applied statistical tests using `plotPCA.py` and `python anovay.py`.
+2. Conducted PCA and applied statistical tests using `plotPCA.py` and `python anova.py`.
 
 **AF2-Multimer Analysis**  
 Used localcolabfold's implementation (repo [here](https://github.com/YoshitakaMo/localcolabfold)) to output structure predictions, pLDDTs, and pAEs.
