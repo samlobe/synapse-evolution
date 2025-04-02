@@ -23,7 +23,7 @@ scaler = StandardScaler()
 scaled_data = scaler.fit_transform(data[embedding_columns])
 
 # Perform PCA 
-pca = PCA(n_components=10)  
+pca = PCA(n_components=10, random_state=42)  # Set random_state for reproducibility
 principal_components = pca.fit_transform(scaled_data)
 
 
@@ -86,4 +86,4 @@ for i in range(1, 11):
     )
     print(f"T-test result for {pc_name}: {t_test_result}")
 
-
+#%%
